@@ -12,11 +12,17 @@
         <select name="categoria" id="categoria" required>
             <option value="">Selecione uma categoria...</option>
             <?php 
-            $result_categoria = "SELECT * FROM categorias";
-            $resultado_categoria = mysqli_query($conn, $result_categoria);
-            while ($row_categoria = mysqli_fetch_assoc($resultado_categoria)) { ?>
-                <option value="<?php echo $row_categoria['id']; ?>"><?php echo $row_categoria ['nome']; ?></option> <?php
-            }
+            $query = "SELECT * FROM categorias";
+            $resultado_categoria = mysqli_query($conn, $query);
+            // Verifique se a consulta foi bem-sucedida
+            if ($resultado_categoria) {
+                while ($row_categoria = mysqli_fetch_assoc($resultado_categoria)) {
+                    $categoriaId = $row_categoria['id'];
+                    $categoriaNome = $row_categoria['nome'];
+                    echo "<option value=\"$categoriaId\">$categoriaNome</option>";}
+            } else {
+                echo "<option value=\"\">Erro ao carregar categorias</option>";
+                }
             ?>
         </select>
 
