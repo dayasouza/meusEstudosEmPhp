@@ -22,8 +22,17 @@
             }
             ?>
         </select>
+        <br>
+        Subcategoria:
+        <br>
+        <select name="subcategoria" id="subcategoria" required>
+            <option value="">Selecione uma subcategoria...</option>
+        </select>
+        <br>
+
 
         <button type="submit">Enviar</button>
     </form>
+    <script src="js/funcoes.js"></script>
 </body>
 </html>
