@@ -2,20 +2,28 @@
 include("includes/conn.php");
 
 $categoria = $_GET['categoria'];
-$query = $conn -> prepare("SELECT id, nome 
+$query = "SELECT id, nome 
     FROM sub_categorias
-    WHERE categoria_id=:categoria_id 
-    ORDER BY nome ASC");
-$data = ['categoria_id' => $categoria];
-$query -> execute($data);
-$registros = $query -> fetchAll(PDO::FETCH_ASSOC);
+    WHERE categoria_id = ? 
+    ORDER BY nome ASC";
+
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $categoria);
+$stmt->execute();
+$resultado = $stmt->get_result();
 
 echo '<option value="">Selecione uma subcategoria...</option>';
 
-foreach($registros as $option){
-?>
-    <option value="<?php echo $option['id'] ?>">
-        <?php echo $option['nome'] ?></option>';  
-<?php
+if ($resultado->num_rows > 0) {
+    while ($row = $resultado->fetch_assoc()) {
+        $id = $row['id'];
+        $nome = $row['nome'];
+        echo "<option value=\"$id\">$nome</option>";
+    }
+} else {
+    echo '<option value="">Nenhuma subcategoria encontrada...</option>';
 }
+
+$stmt->close();
+?>
 
