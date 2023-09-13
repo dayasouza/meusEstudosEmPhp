@@ -15,6 +15,9 @@
             $query = "SELECT id, nome FROM categorias ORDER BY nome ASC";
             $resultado = $conn->query($query);
 
+            // Defina a codificação de caracteres para utf8mb4
+            $conn->set_charset("utf8mb4");
+
             if ($resultado->num_rows > 0) {
                 while ($row = $resultado->fetch_assoc()) {
                     $id = $row['id'];
