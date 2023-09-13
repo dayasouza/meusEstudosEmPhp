@@ -12,13 +12,17 @@
         <select name="categoria" id="categoria" required>
             <option value="">Selecione uma categoria...</option>
             <?php 
-            $query = $conn -> query("SELECT id, nome FROM categorias ORDER BY nome ASC");
-            $registros = $query -> fetchAll(PDO::FETCH_ASSOC);
-            foreach($registros as $option){
-            ?>
-                <option value="<?php echo $option['id'] ?>">
-                    <?php echo $option['nome'] ?></option>';  
-            <?php
+            $query = "SELECT id, nome FROM categorias ORDER BY nome ASC";
+            $resultado = $conn->query($query);
+
+            if ($resultado->num_rows > 0) {
+                while ($row = $resultado->fetch_assoc()) {
+                    $id = $row['id'];
+                    $nome = $row['nome'];
+                    echo "<option value=\"$id\">$nome</option>";
+                }
+            } else {
+                echo '<option value="">Nenhuma categoria encontrada...</option>';
             }
             ?>
         </select>
@@ -29,8 +33,6 @@
             <option value="">Selecione uma subcategoria...</option>
         </select>
         <br>
-
-
         <button type="submit">Enviar</button>
     </form>
     <script src="js/funcoes.js"></script>
